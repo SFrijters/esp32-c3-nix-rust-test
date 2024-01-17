@@ -1,0 +1,4 @@
+{
+  SSID="foo";
+  PASSWORD="bar";
+}
