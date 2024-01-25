@@ -26,7 +26,7 @@ embedded-io = "0.4.0"
 heapless = { version = "0.7.14", default-features = false }
 
 [dev-dependencies]
-compiler_builtins = "=0.1.103"
+compiler_builtins = "=0.1.105"
 addr2line = "0.21.0"
 allocator-api2 = "=0.2.15"
 dlmalloc = "0.2.4"
@@ -42,7 +42,7 @@ rustc-demangle = "0.1.23"
 wasi = "0.11.0"
 cc = "=1.0.79"
 memchr = "=2.5.0"
-unicode-width = "=0.1.10"
+unicode-width = "=0.1.11"
 r-efi = "=4.2.0"
 r-efi-alloc = "=1.0.0"
 unwinding = "=0.2.1"
