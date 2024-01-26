@@ -24,7 +24,14 @@
     systemClosure (
       system: let
         inherit ((builtins.fromTOML (builtins.readFile ./Cargo.toml)).package) name;
-        pkgs = import nixpkgs {
+
+        nixpkgs-patched = (import nixpkgs { inherit system; }).applyPatches {
+          name = "cargo-linker-fix";
+          src = nixpkgs;
+          patches = [ ./cargo-linker-fix.patch ];
+        };
+
+        pkgs = import nixpkgs-patched {
           inherit system;
           overlays = [(import rust-overlay)];
         };
@@ -33,7 +40,7 @@
           pkgs.rust-bin.fromRustupToolchainFile ./rust-toolchain.toml
         );
         rustPlatform = let
-          pkgsCross = import nixpkgs {
+          pkgsCross = import nixpkgs-patched {
             inherit system;
             crossSystem = {
               inherit system;

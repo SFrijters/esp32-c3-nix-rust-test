@@ -90,3 +90,17 @@ CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu HOST_CC=/nix/store/xq8920m5mbd83vdly
 HOST_CXX=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/c++
 cargo build -j 12 --target riscv32imc-unknown-none-elf --frozen --profile release
 ```
+
+Works before (`nixpkgs@6980e6b35aacccd4e75a76a384f9dec30f31fa55`) with this environment:
+
+```
+CC_x86_64-unknown-linux-gnu=/nix/store/rzhpy402dbc2kpk3xz87csnm0xiaw53b-gcc-wrapper-12.3.0/bin/cc
+CXX_x86_64-unknown-linux-gnu=/nix/store/rzhpy402dbc2kpk3xz87csnm0xiaw53b-gcc-wrapper-12.3.0/bin/c++
+CC_riscv32imc-unknown-none-elf=/nix/store/jgqy1fd352i0n88q54jy2dmy6x6rbr3m-x86_64-unknown-linux-gnu-stage-final-gcc-wrapper-12.3.0/bin/x86_64-unknown-linux-gnu-cc
+CXX_riscv32imc-unknown-none-elf=/nix/store/jgqy1fd352i0n88q54jy2dmy6x6rbr3m-x86_64-unknown-linux-gnu-stage-final-gcc-wrapper-12.3.0/bin/x86_64-unknown-linux-gnu-c++
+cargo build -j 12 --target riscv32imc-unknown-none-elf --frozen --release
+```
+
+## Linker flag fixes
+
+* Remove `"CARGO_TARGET_${stdenv.hostPlatform.rust.cargoEnvVarTarget}_LINKER=${linkerForHost}"`: Works
