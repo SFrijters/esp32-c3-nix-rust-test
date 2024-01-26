@@ -1,30 +1,13 @@
 diff --git a/pkgs/build-support/rust/lib/default.nix b/pkgs/build-support/rust/lib/default.nix
-index e09f913bfbd3..a84a80c937cd 100644
+index e09f913bfbd3..6ed6dd732674 100644
 --- a/pkgs/build-support/rust/lib/default.nix
 +++ b/pkgs/build-support/rust/lib/default.nix
-@@ -19,14 +19,14 @@ rec {
+@@ -15,7 +15,7 @@ rec {
+   envVars = let
+ 
+     # As a workaround for https://github.com/rust-lang/rust/issues/89626 use lld on pkgsStatic aarch64
+-    shouldUseLLD = platform: platform.isAarch64 && platform.isStatic && !stdenv.isDarwin;
++    shouldUseLLD = platform: builtins.trace platform ((platform.isAarch64 || platform.isRiscV) && platform.isStatic && !stdenv.isDarwin);
  
      ccForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
      cxxForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}c++";
--    linkerForBuild = ccForBuild;
-+    linkerForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}ld.bfd";
- 
-     ccForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
-     cxxForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++";
-     linkerForHost = if shouldUseLLD stdenv.targetPlatform
-       && !stdenv.cc.bintools.isLLVM
-       then "${pkgsBuildHost.llvmPackages.bintools}/bin/${stdenv.cc.targetPrefix}ld.lld"
--      else ccForHost;
-+      else "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}ld.bfd";
- 
-     # Unfortunately we must use the dangerous `pkgsTargetTarget` here
-     # because hooks are artificially phase-shifted one slot earlier
-@@ -37,7 +37,7 @@ rec {
-     linkerForTarget = if shouldUseLLD pkgsTargetTarget.stdenv.targetPlatform
-       && !pkgsTargetTarget.stdenv.cc.bintools.isLLVM # whether stdenv's linker is lld already
-       then "${pkgsBuildTarget.llvmPackages.bintools}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}ld.lld"
--      else ccForTarget;
-+      else "${pkgsTargetTarget.stdenv.cc}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}ld.bfd";
- 
-     rustBuildPlatform = stdenv.buildPlatform.rust.rustcTarget;
-     rustBuildPlatformSpec = stdenv.buildPlatform.rust.rustcTargetSpec;
