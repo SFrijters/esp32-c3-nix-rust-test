@@ -70,17 +70,23 @@
             ];
           } // (import ./wifi-settings.nix));
 
-          apps.default = let
-            flashScript = pkgs.writeShellApplication {
-              name = "flash-${name}";
-              runtimeInputs = [ pkgs.cargo-espflash ];
-              text = ''
-                espflash --monitor ${self.packages.${system}.default}/bin/${name}
-              '';
+          apps = rec {
+            default = flash;
+
+            flash = let
+              flashScript = pkgs.writeShellApplication {
+                name = "flash-${name}";
+                runtimeInputs = [
+                  pkgs.cargo-espflash
+                ];
+                text = ''
+                  espflash --monitor ${self.packages.${system}.default}/bin/${name}
+                '';
+              };
+            in {
+              type = "app";
+              program = "${lib.getExe flashScript}";
             };
-          in {
-            type = "app";
-            program = "${lib.getExe flashScript}";
           };
         }
     );
