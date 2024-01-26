@@ -1,5 +1,33 @@
+diff --git a/pkgs/build-support/rust/hooks/cargo-build-hook.sh b/pkgs/build-support/rust/hooks/cargo-build-hook.sh
+index ed982c7ff30a..973968173063 100644
+--- a/pkgs/build-support/rust/hooks/cargo-build-hook.sh
++++ b/pkgs/build-support/rust/hooks/cargo-build-hook.sh
+@@ -30,7 +30,7 @@ cargoBuildHook() {
+ 
+     (
+     set -x
+-    @setEnv@ cargo build -j $NIX_BUILD_CORES \
++    @setEnv@ cargo build -vv -j $NIX_BUILD_CORES \
+         --target @rustHostPlatformSpec@ \
+         --frozen \
+         ${cargoBuildProfileFlag} \
+diff --git a/pkgs/build-support/rust/hooks/cargo-setup-hook.sh b/pkgs/build-support/rust/hooks/cargo-setup-hook.sh
+index 693c0b08759e..5dbd867973f7 100644
+--- a/pkgs/build-support/rust/hooks/cargo-setup-hook.sh
++++ b/pkgs/build-support/rust/hooks/cargo-setup-hook.sh
+@@ -36,6 +36,10 @@ cargoSetupPostUnpackHook() {
+     @cargoConfig@
+ EOF
+ 
++    pwd
++    ls .cargo/config
++    cat .cargo/config
++
+     echo "Finished cargoSetupPostUnpackHook"
+ }
+ 
 diff --git a/pkgs/build-support/rust/lib/default.nix b/pkgs/build-support/rust/lib/default.nix
-index e09f913bfbd3..ba754659319c 100644
+index e09f913bfbd3..2dcc04074fd9 100644
 --- a/pkgs/build-support/rust/lib/default.nix
 +++ b/pkgs/build-support/rust/lib/default.nix
 @@ -15,7 +15,7 @@ rec {
@@ -7,7 +35,7 @@ index e09f913bfbd3..ba754659319c 100644
  
      # As a workaround for https://github.com/rust-lang/rust/issues/89626 use lld on pkgsStatic aarch64
 -    shouldUseLLD = platform: platform.isAarch64 && platform.isStatic && !stdenv.isDarwin;
-+    shouldUseLLD = platform: true;
++    shouldUseLLD = platform: builtins.trace platform true;
  
      ccForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
      cxxForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}c++";
