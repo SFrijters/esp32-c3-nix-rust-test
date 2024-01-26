@@ -1,5 +1,5 @@
 diff --git a/pkgs/build-support/rust/lib/default.nix b/pkgs/build-support/rust/lib/default.nix
-index e09f913bfbd3..6ed6dd732674 100644
+index e09f913bfbd3..ba754659319c 100644
 --- a/pkgs/build-support/rust/lib/default.nix
 +++ b/pkgs/build-support/rust/lib/default.nix
 @@ -15,7 +15,7 @@ rec {
@@ -7,7 +7,7 @@ index e09f913bfbd3..6ed6dd732674 100644
  
      # As a workaround for https://github.com/rust-lang/rust/issues/89626 use lld on pkgsStatic aarch64
 -    shouldUseLLD = platform: platform.isAarch64 && platform.isStatic && !stdenv.isDarwin;
-+    shouldUseLLD = platform: builtins.trace platform ((platform.isAarch64 || platform.isRiscV) && platform.isStatic && !stdenv.isDarwin);
++    shouldUseLLD = platform: true;
  
      ccForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
      cxxForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}c++";
