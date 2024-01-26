@@ -120,3 +120,8 @@ cargo build -j 12 --target riscv32imc-unknown-none-elf --frozen --release
 ```
 /nix/store/0gi4vbw1qfjncdl95a9ply43ymd6aprm-binutils-2.40/bin/ld: cannot find -lgcc_s: No such file or directory
 ```
+* Set `ld.gold` explicitly: Fails
+```
+/nix/store/0gi4vbw1qfjncdl95a9ply43ymd6aprm-binutils-2.40/bin/ld.gold: error: cannot find -lgcc_s
+[ various other errors ]
+```
