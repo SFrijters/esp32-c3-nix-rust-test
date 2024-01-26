@@ -1,5 +1,5 @@
 diff --git a/pkgs/build-support/rust/lib/default.nix b/pkgs/build-support/rust/lib/default.nix
-index e09f913bfbd3..ce90efe41f8e 100644
+index e09f913bfbd3..a84a80c937cd 100644
 --- a/pkgs/build-support/rust/lib/default.nix
 +++ b/pkgs/build-support/rust/lib/default.nix
 @@ -19,14 +19,14 @@ rec {
@@ -7,7 +7,7 @@ index e09f913bfbd3..ce90efe41f8e 100644
      ccForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
      cxxForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}c++";
 -    linkerForBuild = ccForBuild;
-+    linkerForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
++    linkerForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}ld";
  
      ccForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
      cxxForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++";
@@ -15,7 +15,7 @@ index e09f913bfbd3..ce90efe41f8e 100644
        && !stdenv.cc.bintools.isLLVM
        then "${pkgsBuildHost.llvmPackages.bintools}/bin/${stdenv.cc.targetPrefix}ld.lld"
 -      else ccForHost;
-+      else "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
++      else "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}ld";
  
      # Unfortunately we must use the dangerous `pkgsTargetTarget` here
      # because hooks are artificially phase-shifted one slot earlier
@@ -24,7 +24,7 @@ index e09f913bfbd3..ce90efe41f8e 100644
        && !pkgsTargetTarget.stdenv.cc.bintools.isLLVM # whether stdenv's linker is lld already
        then "${pkgsBuildTarget.llvmPackages.bintools}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}ld.lld"
 -      else ccForTarget;
-+      else "${pkgsTargetTarget.stdenv.cc}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}cc";
++      else "${pkgsTargetTarget.stdenv.cc}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}ld";
  
      rustBuildPlatform = stdenv.buildPlatform.rust.rustcTarget;
      rustBuildPlatformSpec = stdenv.buildPlatform.rust.rustcTargetSpec;

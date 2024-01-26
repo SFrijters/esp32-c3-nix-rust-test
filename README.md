@@ -116,3 +116,7 @@ cargo build -j 12 --target riscv32imc-unknown-none-elf --frozen --release
        >
        > error: could not compile `http-client` (bin "http-client") due to 1 previous error
 ```
+* Set `ld` explicitly: Fails
+```
+/nix/store/0gi4vbw1qfjncdl95a9ply43ymd6aprm-binutils-2.40/bin/ld: cannot find -lgcc_s: No such file or directory
+```
