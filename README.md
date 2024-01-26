@@ -75,3 +75,18 @@ $ cargo build
 [...and more...]
 ```
 
+## Environment
+
+Linking step fails with this environment:
+
+```
+CC_RISCV32IMC_UNKNOWN_NONE_ELF=/nix/store/2931shdx5hk6x1fm1agzj48g8qyvz4gs-x86_64-unknown-linux-gnu-gcc-wrapper-13.2.0/bin/x86_64-unknown-linux-gnu-cc
+CXX_RISCV32IMC_UNKNOWN_NONE_ELF=/nix/store/2931shdx5hk6x1fm1agzj48g8qyvz4gs-x86_64-unknown-linux-gnu-gcc-wrapper-13.2.0/bin/x86_64-unknown-linux-gnu-c++
+CARGO_TARGET_RISCV32IMC_UNKNOWN_NONE_ELF_LINKER=/nix/store/2931shdx5hk6x1fm1agzj48g8qyvz4gs-x86_64-unknown-linux-gnu-gcc-wrapper-13.2.0/bin/x86_64-unknown-linux-gnu-cc
+CC_X86_64_UNKNOWN_LINUX_GNU=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/cc
+CXX_X86_64_UNKNOWN_LINUX_GNU=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/c++
+CARGO_TARGET_X86_64_UNKNOWN_LINUX_GNU_LINKER=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/cc
+CARGO_BUILD_TARGET=x86_64-unknown-linux-gnu HOST_CC=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/cc
+HOST_CXX=/nix/store/xq8920m5mbd83vdlydwli7qsh67gfm5v-gcc-wrapper-13.2.0/bin/c++
+cargo build -j 12 --target riscv32imc-unknown-none-elf --frozen --profile release
+```
