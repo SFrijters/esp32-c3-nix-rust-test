@@ -40,8 +40,8 @@
 
         pkgsCross = import nixpkgs-patched {
           inherit system;
-          # https://github.com/NixOS/nixpkgs/blob/master/doc/languages-frameworks/rust.section.md#cross-compilation-cross-compilation ?
-          crossSystem = lib.systems.examples.riscv32-embedded // {
+          crossSystem = {
+            inherit system;
             rustc.config = "riscv32imc-unknown-none-elf";
           };
         };
