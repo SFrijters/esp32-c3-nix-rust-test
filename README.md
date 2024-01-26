@@ -135,3 +135,91 @@ trace: { aesSupport = false; avx2Support = false; avx512Support = false; avxSupp
 ```
 
 * Force the use of `lld`: Works
+
+## Build logs with different cross
+
+* `http-client-riscv32-none-elf`: Fails, `.cargo/config.toml` is not respected.
+```
+http-client-riscv32-none-elf>    Compiling atomic-waker v1.1.2
+http-client-riscv32-none-elf>
+Running `CARGO=/nix/store/l3a4ihxkl7fgj3h7sz9cvi9v4wxkjzda-cargo-1.77.0-nightly-2024-01-24-x86_64-unknown-linux-gnu/bin/cargo CARGO_CRATE_NAME=atomic_waker
+CARGO_MANIFEST_DIR=/build/cargo-vendor-dir/atomic-waker-1.1.2
+CARGO_PKG_AUTHORS='Stjepan Glavina <stjepang@gmail.com>:Contributors to futures-rs'
+CARGO_PKG_DESCRIPTION='A synchronization primitive for task wakeup'
+CARGO_PKG_HOMEPAGE=''
+CARGO_PKG_LICENSE='Apache-2.0 OR MIT' CARGO_PKG_LICENSE_FILE=''
+CARGO_PKG_NAME=atomic-waker
+CARGO_PKG_README=README.md
+CARGO_PKG_REPOSITORY='https://github.com/smol-rs/atomic-waker'
+CARGO_PKG_RUST_VERSION=1.36
+CARGO_PKG_VERSION=1.1.2
+CARGO_PKG_VERSION_MAJOR=1
+CARGO_PKG_VERSION_MINOR=1
+CARGO_PKG_VERSION_PATCH=2
+CARGO_PKG_VERSION_PRE=''
+CARGO_RUSTC_CURRENT_DIR=/build/cargo-vendor-dir/atomic-waker-1.1.2
+LD_LIBRARY_PATH='/build/source/target/release/deps:/nix/store/hca7lla5l3hjc2gzkxj03abzgynyjsha-rust-default-1.77.0-nightly-2024-01-24/lib'
+rustc
+--crate-name atomic_waker
+--edition=2018
+/build/cargo-vendor-dir/atomic-waker-1.1.2/src/lib.rs
+--error-format=json
+--json=diagnostic-rendered-ansi,artifacts,future-incompat
+--crate-type lib
+--emit=dep-info,metadata,link -C opt-level=3 -C lto=off -C embed-bitcode=no -C metadata=874e6f4a481835d7 -C extra-filename=-874e6f4a481835d7
+--out-dir /build/source/target/riscv32imc-unknown-none-elf/release/deps
+--target riscv32imc-unknown-none-elf
+-C linker=/nix/store/h14lx5an7mzwmdc1drvanbawyld90h3v-riscv32-none-elf-llvm-binutils-wrapper-17.0.6/bin/riscv32-none-elf-ld.lld
+-L dependency=/build/source/target/riscv32imc-unknown-none-elf/release/deps
+-L dependency=/build/source/target/release/deps
+--extern 'noprelude:compiler_builtins=/build/source/target/riscv32imc-unknown-none-elf/release/deps/libcompiler_builtins-c631d4eacd967a82.rmeta'
+--extern 'noprelude:core=/build/source/target/riscv32imc-unknown-none-elf/release/deps/libcore-dd7802342d54d7f6.rmeta'
+-Z unstable-options
+--cap-lints warn
+-C target-feature=-crt-static`
+```
+
+* `http-client-x86_64-unknown-linux-gnu`: Works
+```
+http-client-x86_64-unknown-linux-gnu>    Compiling atomic-waker v1.1.2
+http-client-x86_64-unknown-linux-gnu>
+Running `CARGO=/nix/store/l3a4ihxkl7fgj3h7sz9cvi9v4wxkjzda-cargo-1.77.0-nightly-2024-01-24-x86_64-unknown-linux-gnu/bin/cargo CARGO_CRATE_NAME=atomic_waker
+CARGO_MANIFEST_DIR=/build/cargo-vendor-dir/atomic-waker-1.1.2
+CARGO_PKG_AUTHORS='Stjepan Glavina <stjepang@gmail.com>:Contributors to futures-rs'
+CARGO_PKG_DESCRIPTION='A synchronization primitive for task wakeup'
+CARGO_PKG_HOMEPAGE=''
+CARGO_PKG_LICENSE='Apache-2.0 OR MIT'
+CARGO_PKG_LICENSE_FILE=''
+CARGO_PKG_NAME=atomic-waker
+CARGO_PKG_README=README.md
+CARGO_PKG_REPOSITORY='https://github.com/smol-rs/atomic-waker'
+CARGO_PKG_RUST_VERSION=1.36
+CARGO_PKG_VERSION=1.1.2
+CARGO_PKG_VERSION_MAJOR=1
+CARGO_PKG_VERSION_MINOR=1
+CARGO_PKG_VERSION_PATCH=2
+CARGO_PKG_VERSION_PRE=''
+CARGO_RUSTC_CURRENT_DIR=/build/cargo-vendor-dir/atomic-waker-1.1.2
+LD_LIBRARY_PATH='/build/source/target/release/deps:/nix/store/hca7lla5l3hjc2gzkxj03abzgynyjsha-rust-default-1.77.0-nightly-2024-01-24/lib'
+rustc
+--crate-name atomic_waker
+--edition=2018
+/build/cargo-vendor-dir/atomic-waker-1.1.2/src/lib.rs
+--error-format=json
+--json=diagnostic-rendered-ansi,artifacts,future-incompat
+--crate-type lib
+--emit=dep-info,metadata,link -C opt-level=3 -C lto=off -C embed-bitcode=no -C metadata=874e6f4a481835d7 -C extra-filename=-874e6f4a481835d7
+--out-dir /build/source/target/riscv32imc-unknown-none-elf/release/deps
+--target riscv32imc-unknown-none-elf
+-C linker=/nix/store/zakn8i3f6chbhg0dp99cfl4nafwlrzql-x86_64-unknown-linux-gnu-llvm-binutils-wrapper-16.0.6/bin/x86_64-unknown-linux-gnu-ld.lld
+-L dependency=/build/source/target/riscv32imc-unknown-none-elf/release/deps
+-L dependency=/build/source/target/release/deps
+--extern 'noprelude:compiler_builtins=/build/source/target/riscv32imc-unknown-none-elf/release/deps/libcompiler_builtins-c631d4eacd967a82.rmeta'
+--extern 'noprelude:core=/build/source/target/riscv32imc-unknown-none-elf/release/deps/libcore-dd7802342d54d7f6.rmeta'
+-Z unstable-options
+--cap-lints warn
+-C link-arg=-Tlinkall.x
+-C link-arg=-Trom_functions.x
+-C force-frame-pointers
+-C target-feature=+a --cfg target_has_atomic_load_store --cfg 'target_has_atomic_load_store="8"' --cfg 'target_has_atomic_load_store="16"' --cfg 'target_has_atomic_load_store="32"' --cfg 'target_has_atomic_load_store="ptr"' --cfg target_has_atomic --cfg 'target_has_atomic="8"' --cfg 'target_has_atomic="16"' --cfg 'target_has_atomic="32"' --cfg 'target_has_atomic="ptr"'`
+```
