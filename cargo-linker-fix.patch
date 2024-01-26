@@ -1,12 +1,30 @@
 diff --git a/pkgs/build-support/rust/lib/default.nix b/pkgs/build-support/rust/lib/default.nix
-index e09f913bfbd3..461232a2b8fb 100644
+index e09f913bfbd3..ce90efe41f8e 100644
 --- a/pkgs/build-support/rust/lib/default.nix
 +++ b/pkgs/build-support/rust/lib/default.nix
-@@ -69,7 +69,6 @@ rec {
-     '' + ''
-       "CC_${stdenv.hostPlatform.rust.cargoEnvVarTarget}=${ccForHost}" \
-       "CXX_${stdenv.hostPlatform.rust.cargoEnvVarTarget}=${cxxForHost}" \
--      "CARGO_TARGET_${stdenv.hostPlatform.rust.cargoEnvVarTarget}_LINKER=${linkerForHost}" \
-     '' + ''
-       "CC_${stdenv.buildPlatform.rust.cargoEnvVarTarget}=${ccForBuild}" \
-       "CXX_${stdenv.buildPlatform.rust.cargoEnvVarTarget}=${cxxForBuild}" \
+@@ -19,14 +19,14 @@ rec {
+ 
+     ccForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
+     cxxForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}c++";
+-    linkerForBuild = ccForBuild;
++    linkerForBuild = "${pkgsBuildHost.stdenv.cc}/bin/${pkgsBuildHost.stdenv.cc.targetPrefix}cc";
+ 
+     ccForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
+     cxxForHost = "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}c++";
+     linkerForHost = if shouldUseLLD stdenv.targetPlatform
+       && !stdenv.cc.bintools.isLLVM
+       then "${pkgsBuildHost.llvmPackages.bintools}/bin/${stdenv.cc.targetPrefix}ld.lld"
+-      else ccForHost;
++      else "${stdenv.cc}/bin/${stdenv.cc.targetPrefix}cc";
+ 
+     # Unfortunately we must use the dangerous `pkgsTargetTarget` here
+     # because hooks are artificially phase-shifted one slot earlier
+@@ -37,7 +37,7 @@ rec {
+     linkerForTarget = if shouldUseLLD pkgsTargetTarget.stdenv.targetPlatform
+       && !pkgsTargetTarget.stdenv.cc.bintools.isLLVM # whether stdenv's linker is lld already
+       then "${pkgsBuildTarget.llvmPackages.bintools}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}ld.lld"
+-      else ccForTarget;
++      else "${pkgsTargetTarget.stdenv.cc}/bin/${pkgsTargetTarget.stdenv.cc.targetPrefix}cc";
+ 
+     rustBuildPlatform = stdenv.buildPlatform.rust.rustcTarget;
+     rustBuildPlatformSpec = stdenv.buildPlatform.rust.rustcTargetSpec;
