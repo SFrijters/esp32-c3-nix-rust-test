@@ -18,27 +18,27 @@
         inherit (nixpkgs) lib;
         inherit ((builtins.fromTOML (builtins.readFile ./Cargo.toml)).package) name;
 
-        nixpkgs-patched = (import nixpkgs { inherit system; }).applyPatches {
-          name = "cargo-linker-fix";
-          src = nixpkgs;
-          # Fix:
-          #   >   = note: x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '-flavor'
-          #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--as-needed'; did you mean '-mno-needed'?
-          #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--gc-sections'; did you mean '--data-sections'?
-          #   >
-          # by forcing LLD as a linker
-          # Also make things more verbose.
-          patches = [ ./cargo-linker-fix.patch ];
-        };
+        # nixpkgs-patched = (import nixpkgs { inherit system; }).applyPatches {
+        #   name = "cargo-linker-fix";
+        #   src = nixpkgs;
+        #   # Fix:
+        #   #   >   = note: x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '-flavor'
+        #   #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--as-needed'; did you mean '-mno-needed'?
+        #   #   >           x86_64-unknown-linux-gnu-gcc: error: unrecognized command-line option '--gc-sections'; did you mean '--data-sections'?
+        #   #   >
+        #   # by forcing LLD as a linker
+        #   # Also make things more verbose.
+        #   patches = [ ./cargo-linker-fix.patch ];
+        # };
 
-        pkgs = import nixpkgs-patched {
+        pkgs = import nixpkgs {
           inherit system;
           overlays = [
             (import rust-overlay)
           ];
         };
 
-        pkgsCross = import nixpkgs-patched {
+        pkgsCross = import nixpkgs {
           inherit system;
           crossSystem = {
             inherit system;

@@ -3,6 +3,7 @@ runner = "espflash flash --monitor"
 
 [build]
 rustflags = [
+  "-C", "link-arg=-fuse-ld=lld",
   "-C", "link-arg=-Tlinkall.x",
   # TODO: Explain
   "-C", "link-arg=-Trom_functions.x",
