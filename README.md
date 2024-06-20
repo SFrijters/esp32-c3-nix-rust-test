@@ -1,4 +1,8 @@
-# http_client
+# esp32-c3-nix-rust-test
+
+**NOTE**: This repo contains mostly information about the debugging process to get Rust cross-compilation for esp32c3 (`riscv32imc-unknown-none-elf`) to work with Nix, following [an issue in nixpkgs](https://github.com/NixOS/nixpkgs/issues/281527) - for an actual working example [with minimal workarounds](https://github.com/SFrijters/nix-qemu-esp32c3-rust-example/blob/5a12cffec42d58c92f03563d229ea07a8a2e2885/blinky/default.nix#L14-L23) you may want to check out https://github.com/SFrijters/nix-qemu-esp32c3-rust-example .
+
+---
 
 Based on https://n8henrie.com/2023/09/compiling-rust-for-the-esp32-with-nix/ and https://github.com/esp-rs/no_std-training .
 
